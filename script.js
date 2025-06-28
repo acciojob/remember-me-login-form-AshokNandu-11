@@ -1,7 +1,7 @@
 //your JS code here. If required.
 const userInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
-const rememberInput = document.getElementById("rememberme");
+const rememberInput = document.getElementById("checkbox");
 const submitInput = document.getElementById("submit");
 const existingInput = document.getElementById("existing");
 
