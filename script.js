@@ -9,7 +9,7 @@ window.onload = () =>{
     const saveduserName = localStorage.getItem("saveduserName");
     const savedpassword = localStorage.getItem("savedpassword");
 
-    if(userName && password){
+    if(saveduserName && savedpassword){
         existingInput.style.display = "block";
 
 	}
