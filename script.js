@@ -1,43 +1,75 @@
-//your JS code here. If required.
-const userInput = document.getElementById("username");
-const passwordInput = document.getElementById("password");
-const rememberInput = document.getElementById("checkbox");
-const submitInput = document.getElementById("submit");
-const existingInput = document.getElementById("existing");
+// This script implements a login form with "Remember Me" functionality using localStorage
 
-window.onload = () =>{
-    const saveduserName = localStorage.getItem("saveduserName");
-    const savedpassword = localStorage.getItem("savedpassword");
+// Get references to DOM elements
+const form = document.querySelector("form");
+const usernameInput = document.querySelector("#username");
+const passwordInput = document.querySelector("#password");
+const rememberMeCheckbox = document.querySelector("#checkbox");
+const existingButton = document.querySelector("#existing");
 
-    if(saveduserName && savedpassword){
-        existingInput.style.display = "block";
+// Initially hide the "Login with Existing Credentials" button
+existingButton.style.display = "none";
 
-	}
-};
+// Add a submit event listener to the login form
+form.addEventListener("submit", (event) => {
+  // Prevent the default form submission behavior which would refresh the page
+  event.preventDefault();
 
-document.getElementById("loginform").addEventListener('submit', (e)=>{
-    e.preventDefault();
+  // Get the values entered by the user
+  const username = usernameInput.value;
+  const password = passwordInput.value;
+  const rememberMe = rememberMeCheckbox.checked; // true or false
 
-    const userName = userInput.value.trim();
-    const password = passwordInput.value.trim();
-    
-    alert(`Logged in as ${userName}`);
-
-    if(rememberInput.checked){
-        localStorage.setItem("saveduserName",userName);
-        localStorage.setItem("savedpassword", password);
-        existingInput.style.display = "block";
-    }else{
-        localStorage.removeItem("saveduserName");
-        localStorage.removeItem("savedpassword");
-        existingInput.style.display = 'none';
-    }
-});
-
-existingInput.addEventListener("click", () => {
-  const savedUsername = localStorage.getItem("saveduserName");
-  if (savedUsername) {
-    alert("Logged in as " + savedUsername);
-
+  // If "Remember Me" is checked, save credentials to localStorage
+  // localStorage persists even after browser is closed, unlike sessionStorage
+  if (rememberMe) {
+    localStorage.setItem("username", username);
+    localStorage.setItem("password", password);
+  } else {
+    // If "Remember Me" is not checked, remove any previously stored credentials
+    localStorage.removeItem("username", username);
+    localStorage.removeItem("password", password);
   }
+
+  // Alert the user that they've been logged in
+  alert(`Logged in as ${username}`);
+
+  // Check if we need to show the "Login with Existing Credentials" button
+  showButton();
+
+  // Reset the form fields
+  form.reset();
 });
+
+// Function to show/hide the "Login with Existing Credentials" button
+function showButton() {
+  // Get stored credentials from localStorage
+  const username = localStorage.getItem("username");
+  const password = localStorage.getItem("password");
+
+  // If both username and password exist in localStorage, show the button
+  if (username && password) {
+    existingButton.style.display = "block";
+  } else {
+    // Otherwise, hide the button
+    existingButton.style.display = "none";
+  }
+}
+
+// Function to log in with saved credentials
+function loginAsSaved() {
+  // Get stored credentials from localStorage
+  const username = localStorage.getItem("username");
+  const password = localStorage.getItem("password");
+
+  // If both username and password exist, log the user in
+  if (username && password) {
+    alert(`Logged in as ${username}`);
+  }
+}
+
+// Check if we should show the "Login with Existing Credentials" button when page loads
+showButton();
+
+// Add click event listener to the "Login with Existing Credentials" button
+existingButton.addEventListener("click", loginAsSaved);
