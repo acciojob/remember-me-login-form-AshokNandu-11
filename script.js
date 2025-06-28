@@ -6,15 +6,13 @@ const submitInput = document.getElementById("submit");
 const existingInput = document.getElementById("existing");
 
 window.onload = () =>{
-    const userName = localStorage.getItem(userName);
-    const password = localStorage.getItem(password);
+    const saveduserName = localStorage.getItem("saveduserName");
+    const savedpassword = localStorage.getItem("savedpassword");
 
     if(userName && password){
         existingInput.style.display = "block";
 
-    }else{
-        existingInput.style.display = "none";
-    }
+	}
 };
 
 document.getElementById("loginform").addEventListener('submit', (e)=>{
